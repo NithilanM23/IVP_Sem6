@@ -1,20 +1,18 @@
-# PulmoAI — Chest X-Ray Disease Prediction
+# PulmoAI: Explainable Multi-Label Chest X-Ray Disease Prediction
 
-PulmoAI is a course project developed for the **Image and Video Processing (IVP), Semester 6** course. The project explores the use of deep learning and explainable AI for detecting multiple thoracic diseases from chest X-ray images.
+## Abstract
 
-The repository combines:
+PulmoAI is an academic project developed as part of the **Image and Video Processing (IVP) course in Semester 6**. The project investigates the application of deep learning to chest radiograph analysis, with emphasis on **multi-label disease classification**, class-imbalance handling, and explainable artificial intelligence.
 
-- A Jupyter Notebook for exploratory data analysis and multi-label chest X-ray classification.
-- A browser-based demonstration interface for uploading X-ray images and viewing prediction results.
-- Grad-CAM visualizations to make model predictions more interpretable.
+The repository contains a Jupyter Notebook for exploratory data analysis and model development, together with a browser-based interface for presenting chest X-ray predictions and Grad-CAM-based visual explanations.
 
-> **Important:** This project is intended for academic, research, and educational use only. It is not a medical diagnostic system and must not be used as a substitute for evaluation by a qualified healthcare professional.
+> **Medical disclaimer:** This project is intended solely for academic, research, and educational purposes. It is not a certified medical device and must not be used to provide, confirm, or replace a clinical diagnosis. Medical decisions should always be made by qualified healthcare professionals.
 
-## Project Overview
+## 1. Introduction
 
-Chest radiographs can contain evidence of more than one condition at the same time. This project treats disease detection as a **multi-label classification** problem rather than assigning only one label to each image.
+A single chest X-ray may exhibit signs of more than one thoracic condition. Accordingly, this project formulates disease prediction as a **multi-label classification problem**, where an image can be associated with multiple findings simultaneously rather than being assigned to only one class.
 
-The notebook works with chest X-ray metadata containing findings such as:
+The project uses chest X-ray metadata containing radiological findings such as:
 
 - Atelectasis
 - Cardiomegaly
@@ -31,174 +29,193 @@ The notebook works with chest X-ray metadata containing findings such as:
 - Pneumonia
 - Pneumothorax
 
-The analysis includes label preparation, class-frequency analysis, imbalance handling with weighted loss, image transformations, dataset loading, and deep-learning model training/evaluation.
+The analysis covers metadata exploration, label transformation, class-frequency analysis, weighted-loss design, image preprocessing, dataset construction, and deep-learning-based classification.
 
-## Features
+## 2. Project Objectives
 
-### Machine-learning workflow
+The primary objectives of this project are to:
 
-- Exploratory analysis of chest X-ray metadata.
-- Conversion of pipe-separated findings into binary multi-label targets.
-- Analysis of patient attributes, image views, and pathology frequencies.
-- Class-imbalance analysis using positive and negative label frequencies.
-- Weighted loss calculation to reduce the effect of imbalanced labels.
-- Image loading and preprocessing with PyTorch and Torchvision.
-- Data augmentation using random rotation, resizing, tensor conversion, and normalization.
-- GPU support when CUDA is available.
+1. Study the characteristics of chest X-ray metadata and disease-label distributions.
+2. Formulate chest radiograph disease prediction as a multi-label classification task.
+3. Investigate the effect of class imbalance on model learning.
+4. Apply weighted loss functions to improve the treatment of underrepresented findings.
+5. Develop an image-processing and deep-learning workflow using PyTorch.
+6. Explore Grad-CAM-based visual explanations for model predictions.
+7. Present predictions and explanations through an accessible browser interface.
 
-### Explainable-AI demonstration
+## 3. Methodology
 
-The web interface presents a PulmoAI workflow with:
+The project follows the workflow below:
 
-1. A landing page for the chest X-ray analysis system.
-2. Drag-and-drop or file-browser upload support.
-3. Image preview and file metadata.
-4. An animated analysis workflow.
-5. Original X-ray and Grad-CAM heatmap comparison.
-6. Prediction, confidence, severity, and affected-area summaries.
-7. A text-based report export option.
+1. Load and inspect chest X-ray metadata.
+2. Perform exploratory analysis of patient attributes, image views, and finding frequencies.
+3. Convert the pipe-separated `Finding Labels` field into independent binary target columns.
+4. Quantify positive and negative class frequencies for each pathology.
+5. Calculate class weights to address label imbalance.
+6. Define a weighted multi-label loss function.
+7. Construct a custom PyTorch dataset for loading and transforming images.
+8. Apply image preprocessing and augmentation, including rotation, resizing, tensor conversion, and normalization.
+9. Train and evaluate a deep-learning classifier.
+10. Generate Grad-CAM-style visualizations to identify image regions associated with predictions.
 
-The current frontend demonstration uses **precomputed example results** for the bundled demo cases (`case1.png` through `case5.png`). It does not connect the browser directly to a live inference API.
-
-## Repository Structure
+## 4. Repository Contents
 
 ```text
 IVP_Sem6/
-├── multi-label-chest-x-ray-classification.ipynb  # EDA and ML experimentation
-├── index.html                                    # PulmoAI web interface
-├── style.css                                     # Frontend styling and animations
-├── script.js                                     # Demo interaction and result logic
-├── images/                                       # X-ray and Grad-CAM assets
-└── gradcam/                                      # Grad-CAM-related visualizations/assets
+├── multi-label-chest-x-ray-classification.ipynb  # EDA, preprocessing, and ML workflow
+├── index.html                                    # Chest X-ray analysis interface
+├── style.css                                     # Interface styling and visual effects
+├── script.js                                     # Client-side interaction and result rendering
+├── images/                                       # X-ray and visualization assets
+└── gradcam/                                      # Grad-CAM visualization assets
 ```
 
-## Technologies Used
+## 5. Key Components
 
-### Notebook and deep learning
+### 5.1 Exploratory Data Analysis and Classification Notebook
+
+The notebook provides the main computational workflow for the project. It includes:
+
+- Loading and inspecting chest X-ray label metadata.
+- Analysis of patient gender, age, and view-position distributions.
+- Construction of binary labels for individual pathologies.
+- Visualization of disease prevalence and label imbalance.
+- Calculation of positive and negative class frequencies.
+- Implementation of a weighted loss function.
+- Custom dataset and data-loader preparation using PyTorch.
+- Image transformation and normalization.
+- Model training and evaluation components.
+
+### 5.2 Explainable-AI Interface
+
+The web interface is designed to communicate the analysis workflow and present model outputs in a structured format. It includes:
+
+- Chest X-ray image upload through file browsing or drag and drop.
+- Image preview and file-information display.
+- Analysis progress visualization.
+- Side-by-side comparison of the original image and Grad-CAM heatmap.
+- Prediction, confidence score, severity, and affected-area fields.
+- Textual explanation of the predicted finding.
+- Export of a text-based analysis report.
+
+The included JavaScript currently uses predefined result mappings for the available image cases. A production deployment would replace these mappings with calls to a trained model through an inference service.
+
+## 6. Technologies and Libraries
+
+### Machine Learning and Image Processing
 
 - Python
 - Jupyter Notebook
 - NumPy
 - Pandas
+- Pillow
+- tqdm
 - Matplotlib
 - Seaborn
 - Plotly
-- Pillow
-- tqdm
 - PyTorch
 - Torchvision
 
-### Frontend
+### Web Interface
 
 - HTML5
 - CSS3
 - Vanilla JavaScript
 - SVG graphics
-- Canvas-based particle animation
+- HTML Canvas API
 
-## Getting Started
+## 7. Installation and Execution
 
-### 1. Clone the repository
+### 7.1 Clone the Repository
 
 ```bash
 git clone https://github.com/NithilanM23/IVP_Sem6.git
 cd IVP_Sem6
 ```
 
-### 2. Run the web demonstration
+### 7.2 Run the Web Interface
 
-The frontend is a static web application and does not require a build step.
+The web interface is composed of static HTML, CSS, JavaScript, and image assets. It does not require a separate build system.
 
-You can either open `index.html` directly in a browser or start a local server:
+To serve the files locally using Python:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open [http://localhost:8000](http://localhost:8000) in your browser.
-
-For the precomputed demo flow, use one of the supported example filenames:
+Open the following address in a browser:
 
 ```text
-case1.png
-case2.png
-case3.png
-case4.png
-case5.png
+http://localhost:8000
 ```
 
-The displayed result is selected by filename in `script.js`. Uploading another filename shows the demo's “No Precomputed Result” message.
+The interface supports the image cases referenced by `script.js`, including `case1.png` through `case5.png`, provided that the corresponding assets are available in the expected directories.
 
-### 3. Run the notebook
+### 7.3 Run the Jupyter Notebook
 
-Create a Python environment and install the main dependencies:
+Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate       # Windows: .venv\\Scripts\\activate
+```
+
+Install the required packages:
+
+```bash
 pip install numpy pandas tqdm pillow seaborn matplotlib plotly torch torchvision jupyter
 ```
 
-Start Jupyter:
+Launch Jupyter Notebook:
 
 ```bash
 jupyter notebook
 ```
 
-Open `multi-label-chest-x-ray-classification.ipynb` and execute the cells in order.
+Open `multi-label-chest-x-ray-classification.ipynb` and execute the cells sequentially.
 
-> The notebook was originally prepared around a Kaggle-style dataset layout and references paths such as `../input/sample/sample_labels.csv`. To run it locally, download and organize the required chest X-ray images and label metadata, then update the dataset paths in the notebook.
+> The notebook was prepared using a Kaggle-style dataset layout and refers to paths such as `../input/sample/sample_labels.csv`. For local execution, download the required dataset separately, arrange the files according to the expected structure, and update the paths in the notebook where necessary.
 
-## Methodology
+## 8. Dataset Considerations
 
-The notebook follows this general workflow:
+The notebook expects chest X-ray images and corresponding metadata containing image identifiers and finding labels. The complete medical dataset is not included in this repository.
 
-1. Load chest X-ray metadata and inspect the dataset.
-2. Explore gender, age, view-position, and pathology distributions.
-3. Convert the `Finding Labels` column into separate binary label columns.
-4. Measure class imbalance across the disease categories.
-5. Calculate positive and negative class weights.
-6. Define a weighted multi-label loss function.
-7. Build a PyTorch dataset and apply image transformations.
-8. Train and evaluate a deep-learning classifier.
-9. Use Grad-CAM-style visual explanations to identify image regions influencing predictions.
+Before using any dataset, verify:
 
-## Demo Results
+- The dataset license and permitted uses.
+- The provenance and quality of the labels.
+- Patient privacy and de-identification requirements.
+- The suitability of the dataset for the intended academic experiment.
+- Potential demographic and institutional biases.
 
-The frontend contains illustrative precomputed cases, including examples labelled as:
+## 9. Limitations
 
-- Edema
-- Pneumonia
-- Atelectasis
-- Pulmonary Nodule
-- Pleural Effusion
+- The repository does not currently contain a production model-serving backend.
+- The browser interface is not connected to a live inference endpoint.
+- The full chest X-ray dataset is not stored in the repository.
+- The notebook may require path adjustments and dependency-version compatibility fixes.
+- Reported metrics and interface values should not be interpreted as clinically validated performance.
+- Results may vary according to dataset composition, train-validation split, preprocessing, model architecture, hardware, and hyperparameters.
+- Clinical deployment would require external validation, calibration, fairness analysis, privacy safeguards, regulatory review, and continuous monitoring.
 
-These values are part of the demonstration interface and should not be interpreted as validated clinical performance measurements.
+## 10. Future Scope
 
-## Limitations
+Potential extensions of this work include:
 
-- The repository does not currently include a production inference backend or model-serving API.
-- The frontend uses filename-based, precomputed results for demonstration purposes.
-- The full medical dataset is not included in the repository.
-- Notebook dataset paths may require local configuration before execution.
-- Training results depend on the dataset split, preprocessing, model configuration, hardware, and hyperparameters.
-- Clinical deployment would require extensive validation, calibration, bias analysis, privacy controls, regulatory review, and expert oversight.
+- Connecting the interface to a trained PyTorch inference API.
+- Adding reproducible dependency files such as `requirements.txt` or `environment.yml`.
+- Separating training, validation, testing, and inference code into maintainable modules.
+- Reporting per-pathology AUROC, precision, recall, F1-score, sensitivity, specificity, and calibration.
+- Adding model checkpoints and experiment configuration files where licensing permits.
+- Improving Grad-CAM generation and comparing explanations across model architectures.
+- Evaluating model performance across demographic and acquisition subgroups.
+- Adding automated tests, documentation, and continuous integration.
+- Recording dataset citations, preprocessing decisions, experimental settings, and final results.
 
-## Future Improvements
+## 11. Academic Context
 
-- Connect the web interface to a real PyTorch inference service.
-- Add a reproducible `requirements.txt` or `environment.yml` file.
-- Add explicit training, validation, and test scripts.
-- Track metrics per disease, including AUROC, precision, recall, F1-score, and calibration.
-- Add model checkpoints and configuration files where licensing permits.
-- Improve Grad-CAM generation for the deployed model and validate explanations with domain experts.
-- Add automated tests and continuous integration.
-- Document the dataset source, licensing, preprocessing decisions, and experimental results.
+This repository was developed as a **Semester 6 Image and Video Processing course project**. It combines image analysis, machine learning, deep neural networks, class-imbalance mitigation, and explainable AI to study the automated analysis of chest radiographs.
 
-## Academic Context
+## 12. License
 
-This repository was created as a **Semester 6 Image and Video Processing course project** to study chest X-ray analysis, multi-label image classification, class-imbalance handling, and explainable deep learning.
-
-## License
-
-No license has been specified for this repository yet. Until a license is added, the contents should be treated as **all rights reserved**. Add an appropriate open-source license if you want others to use, modify, or redistribute the project.
+No open-source license has been specified for this repository. Until a license is added, the contents should be considered **all rights reserved**. If reuse, modification, or redistribution is intended, add an appropriate license to the repository.
